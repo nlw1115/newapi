@@ -14,6 +14,7 @@ import (
 	"github.com/QuantumNous/new-api/setting/operation_setting"
 	"github.com/QuantumNous/new-api/setting/ratio_setting"
 	"github.com/QuantumNous/new-api/setting/system_setting"
+	"github.com/shopspring/decimal"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,6 +28,41 @@ var completionRatioMetaOptionKeys = []string{
 	"ImageRatio",
 	"AudioRatio",
 	"AudioCompletionRatio",
+}
+
+var dollarQuotaOptionKeys = map[string]struct{}{
+	"QuotaForNewUser":           {},
+	"QuotaForInviter":           {},
+	"QuotaForInvitee":           {},
+	"checkin_setting.min_quota": {},
+	"checkin_setting.max_quota": {},
+}
+
+func isDollarQuotaOptionKey(key string) bool {
+	_, ok := dollarQuotaOptionKeys[key]
+	return ok
+}
+
+func internalQuotaToDollarString(value string) string {
+	if common.QuotaPerUnit <= 0 {
+		return value
+	}
+	quota, err := decimal.NewFromString(strings.TrimSpace(value))
+	if err != nil {
+		return value
+	}
+	return quota.Div(decimal.NewFromFloat(common.QuotaPerUnit)).String()
+}
+
+func dollarStringToInternalQuotaString(value string) string {
+	if common.QuotaPerUnit <= 0 {
+		return value
+	}
+	amount, err := decimal.NewFromString(strings.TrimSpace(value))
+	if err != nil {
+		return value
+	}
+	return amount.Mul(decimal.NewFromFloat(common.QuotaPerUnit)).Round(0).String()
 }
 
 func isPaymentComplianceOptionKey(key string) bool {
@@ -81,6 +117,9 @@ func GetOptions(c *gin.Context) {
 	common.OptionMapRWMutex.Lock()
 	for k, v := range common.OptionMap {
 		value := common.Interface2String(v)
+		if isDollarQuotaOptionKey(k) {
+			value = internalQuotaToDollarString(value)
+		}
 		isSensitiveKey := strings.HasSuffix(k, "Token") ||
 			strings.HasSuffix(k, "Secret") ||
 			strings.HasSuffix(k, "Key") ||
@@ -148,6 +187,9 @@ func UpdateOption(c *gin.Context) {
 			common.ApiErrorMsg(c, "合规确认字段不允许通过通用设置接口修改")
 			return
 		}
+	}
+	if isDollarQuotaOptionKey(option.Key) {
+		option.Value = dollarStringToInternalQuotaString(option.Value.(string))
 	}
 	switch option.Key {
 	case "GitHubOAuthEnabled":

@@ -33,8 +33,8 @@ export default function SettingsCheckin(props) {
   const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState({
     'checkin_setting.enabled': false,
-    'checkin_setting.min_quota': 1000,
-    'checkin_setting.max_quota': 10000,
+    'checkin_setting.min_quota': 0.002,
+    'checkin_setting.max_quota': 0.02,
   });
   const refForm = useRef();
   const [inputsRow, setInputsRow] = useState(inputs);
@@ -121,20 +121,24 @@ export default function SettingsCheckin(props) {
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                 <Form.InputNumber
                   field={'checkin_setting.min_quota'}
-                  label={t('签到最小额度')}
-                  placeholder={t('签到奖励的最小额度')}
+                  label={t('签到最小奖励 (USD)')}
+                  placeholder={t('例如：0.01')}
                   onChange={handleFieldChange('checkin_setting.min_quota')}
                   min={0}
+                  step={0.01}
+                  suffix={'USD'}
                   disabled={!inputs['checkin_setting.enabled']}
                 />
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                 <Form.InputNumber
                   field={'checkin_setting.max_quota'}
-                  label={t('签到最大额度')}
-                  placeholder={t('签到奖励的最大额度')}
+                  label={t('签到最大奖励 (USD)')}
+                  placeholder={t('例如：0.05')}
                   onChange={handleFieldChange('checkin_setting.max_quota')}
                   min={0}
+                  step={0.01}
+                  suffix={'USD'}
                   disabled={!inputs['checkin_setting.enabled']}
                 />
               </Col>

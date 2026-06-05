@@ -43,8 +43,8 @@ import { useUpdateOption } from '../hooks/use-update-option'
 
 const schema = z.object({
   enabled: z.boolean(),
-  minQuota: z.coerce.number().int().min(0),
-  maxQuota: z.coerce.number().int().min(0),
+  minQuota: z.coerce.number().min(0),
+  maxQuota: z.coerce.number().min(0),
 })
 
 type Values = z.infer<typeof schema>
@@ -150,17 +150,18 @@ export function CheckinSettingsSection({
                 name='minQuota'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('Minimum check-in quota')}</FormLabel>
+                    <FormLabel>{t('Minimum check-in reward (USD)')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
                         min={0}
-                        placeholder={t('1000')}
+                        step='0.01'
+                        placeholder={t('0.002')}
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      {t('Minimum quota amount awarded for check-in')}
+                      {t('Minimum USD credit awarded for check-in')}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -172,17 +173,18 @@ export function CheckinSettingsSection({
                 name='maxQuota'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('Maximum check-in quota')}</FormLabel>
+                    <FormLabel>{t('Maximum check-in reward (USD)')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
                         min={0}
-                        placeholder={t('10000')}
+                        step='0.01'
+                        placeholder={t('0.02')}
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      {t('Maximum quota amount awarded for check-in')}
+                      {t('Maximum USD credit awarded for check-in')}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
