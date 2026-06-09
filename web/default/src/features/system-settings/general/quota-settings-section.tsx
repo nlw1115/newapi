@@ -127,10 +127,12 @@ export function QuotaSettingsSection({
               name='QuotaForNewUser'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('New User Quota')}</FormLabel>
+                  <FormLabel>{t('New User Credit (USD)')}</FormLabel>
                   <FormControl>
                     <Input
                       type='number'
+                      min={0}
+                      step='0.01'
                       value={field.value ?? ''}
                       onChange={handleNumberChange(field.onChange)}
                       name={field.name}
@@ -139,7 +141,7 @@ export function QuotaSettingsSection({
                     />
                   </FormControl>
                   <FormDescription>
-                    {t('Initial quota given to new users')}
+                    {t('Initial USD credit given to new users')}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -155,6 +157,7 @@ export function QuotaSettingsSection({
                   <FormControl>
                     <Input
                       type='number'
+                      min={0}
                       value={field.value ?? ''}
                       onChange={handleNumberChange(field.onChange)}
                       name={field.name}
@@ -175,10 +178,12 @@ export function QuotaSettingsSection({
               name='QuotaForInviter'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('Inviter Reward')}</FormLabel>
+                  <FormLabel>{t('Inviter Reward (USD)')}</FormLabel>
                   <FormControl>
                     <Input
                       type='number'
+                      min={0}
+                      step='0.01'
                       value={field.value ?? ''}
                       onChange={handleNumberChange(field.onChange)}
                       name={field.name}
@@ -187,7 +192,7 @@ export function QuotaSettingsSection({
                     />
                   </FormControl>
                   <FormDescription>
-                    {t('Quota given to users who invite others')}
+                    {t('USD credit given to users who invite others')}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -199,10 +204,12 @@ export function QuotaSettingsSection({
               name='QuotaForInvitee'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('Invitee Reward')}</FormLabel>
+                  <FormLabel>{t('Invitee Reward (USD)')}</FormLabel>
                   <FormControl>
                     <Input
                       type='number'
+                      min={0}
+                      step='0.01'
                       value={field.value ?? ''}
                       onChange={handleNumberChange(field.onChange)}
                       name={field.name}
@@ -211,7 +218,7 @@ export function QuotaSettingsSection({
                     />
                   </FormControl>
                   <FormDescription>
-                    {t('Quota given to invited users')}
+                    {t('USD credit given to invited users')}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

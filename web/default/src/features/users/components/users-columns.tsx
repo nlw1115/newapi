@@ -372,6 +372,40 @@ export function useUsersColumns(): ColumnDef<User>[] {
       meta: { label: t('Last Login'), mobileHidden: true },
     },
     {
+      accessorKey: 'last_ip',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title={t('Last IP')} />
+      ),
+      cell: ({ row }) => {
+        const ip = row.getValue('last_ip') as string | undefined
+        const ts = row.original.last_used_at
+
+        if (!ip) {
+          return <span className='text-muted-foreground text-sm'>-</span>
+        }
+
+        return (
+          <Tooltip>
+            <TooltipTrigger render={<div className='cursor-help' />}>
+              <StatusBadge
+                label={ip}
+                copyText={ip}
+                variant='neutral'
+                showDot={false}
+                className='max-w-[140px] font-mono'
+              />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className='text-xs'>
+                {t('Last Used')}: {ts ? formatTimestamp(ts) : '-'}
+              </p>
+            </TooltipContent>
+          </Tooltip>
+        )
+      },
+      meta: { label: t('Last IP'), mobileHidden: true },
+    },
+    {
       id: 'actions',
       cell: ({ row }) => <DataTableRowActions row={row} />,
       meta: { label: t('Actions') },

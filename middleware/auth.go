@@ -402,6 +402,7 @@ func TokenAuth() func(c *gin.Context) {
 		if err != nil {
 			return
 		}
+		model.UpdateUserLastUsedInfo(token.UserId, c.ClientIP())
 		c.Next()
 	}
 }

@@ -53,6 +53,8 @@ type User struct {
 	StripeCustomer   string         `json:"stripe_customer" gorm:"type:varchar(64);column:stripe_customer;index"`
 	CreatedAt        int64          `json:"created_at" gorm:"autoCreateTime;column:created_at"`
 	LastLoginAt      int64          `json:"last_login_at" gorm:"default:0;column:last_login_at"`
+	LastUsedAt       int64          `json:"last_used_at" gorm:"default:0;column:last_used_at"`
+	LastIp           string         `json:"last_ip" gorm:"type:varchar(64);default:'';column:last_ip;index"`
 }
 
 func (user *User) ToBaseUser() *UserBase {
@@ -955,6 +957,20 @@ func UpdateUserLastLoginAt(id int) {
 	if err := DB.Model(&User{}).Where("id = ?", id).Update("last_login_at", common.GetTimestamp()).Error; err != nil {
 		common.SysLog("failed to update user last_login_at: " + err.Error())
 	}
+}
+
+func UpdateUserLastUsedInfo(id int, ip string) {
+	if id == 0 || ip == "" {
+		return
+	}
+	gopool.Go(func() {
+		if err := DB.Model(&User{}).Where("id = ?", id).Updates(map[string]interface{}{
+			"last_used_at": common.GetTimestamp(),
+			"last_ip":      ip,
+		}).Error; err != nil {
+			common.SysLog("failed to update user last used info: " + err.Error())
+		}
+	})
 }
 
 func UpdateUserUsedQuotaAndRequestCount(id int, quota int) {

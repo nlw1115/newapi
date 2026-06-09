@@ -23,6 +23,7 @@ import { SearchProvider } from '@/context/search-provider'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { AnimatedOutlet } from '@/components/page-transition'
 import { SkipToMain } from '@/components/skip-to-main'
+import { CsWidget } from '@/features/cs/components/cs-widget'
 import { AppHeader } from './app-header'
 import { AppSidebar } from './app-sidebar'
 
@@ -52,6 +53,7 @@ export function AuthenticatedLayout(props: AuthenticatedLayoutProps) {
               {props.children ?? <AnimatedOutlet />}
             </SidebarInset>
           </div>
+          <CsWidget />
         </SidebarProvider>
       </SearchProvider>
     </LayoutProvider>

@@ -142,6 +142,11 @@ export function useSidebarData(): SidebarData {
             icon: CreditCard,
           },
           {
+            title: t('Customer Service'),
+            url: '/admin/cs',
+            icon: MessageSquare,
+          },
+          {
             title: t('System Settings'),
             url: '/system-settings/site',
             activeUrls: ['/system-settings'],

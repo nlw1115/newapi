@@ -112,11 +112,11 @@ export default function SettingsCreditLimit(props) {
             <Row gutter={16}>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                 <Form.InputNumber
-                  label={t('新用户初始额度')}
+                  label={t('新用户初始金额 (USD)')}
                   field={'QuotaForNewUser'}
-                  step={1}
+                  step={0.01}
                   min={0}
-                  suffix={'Token'}
+                  suffix={'USD'}
                   placeholder={''}
                   onChange={(value) =>
                     setInputs({
@@ -145,15 +145,15 @@ export default function SettingsCreditLimit(props) {
               </Col>
               <Col xs={24} sm={12} md={8} lg={8} xl={8}>
                 <Form.InputNumber
-                  label={t('邀请新用户奖励额度')}
+                  label={t('邀请新用户奖励金额 (USD)')}
                   field={'QuotaForInviter'}
-                  step={1}
+                  step={0.01}
                   min={0}
-                  suffix={'Token'}
+                  suffix={'USD'}
                   extraText={
                     !complianceConfirmed ? t('非零值需先确认合规声明') : ''
                   }
-                  placeholder={t('例如：2000')}
+                  placeholder={t('例如：5')}
                   onChange={(value) =>
                     setInputs({
                       ...inputs,
@@ -166,15 +166,15 @@ export default function SettingsCreditLimit(props) {
             <Row>
               <Col xs={24} sm={12} md={8} lg={8} xl={6}>
                 <Form.InputNumber
-                  label={t('新用户使用邀请码奖励额度')}
+                  label={t('新用户使用邀请码奖励金额 (USD)')}
                   field={'QuotaForInvitee'}
-                  step={1}
+                  step={0.01}
                   min={0}
-                  suffix={'Token'}
+                  suffix={'USD'}
                   extraText={
                     !complianceConfirmed ? t('非零值需先确认合规声明') : ''
                   }
-                  placeholder={t('例如：1000')}
+                  placeholder={t('例如：5')}
                   onChange={(value) =>
                     setInputs({
                       ...inputs,

@@ -454,6 +454,7 @@
     "价格：{{symbol}}{{price}} * {{ratioType}}：{{ratio}}": "Price: {{symbol}}{{price}} * {{ratioType}}: {{ratio}}",
     "价格：${{price}} * {{ratioType}}：{{ratio}}": "Price: ${{price}} * {{ratioType}}: {{ratio}}",
     "价格摘要": "Price Summary",
+    "Summary": "Summary",
     "价格暂时不可用，请稍后重试": "Price temporarily unavailable, please try again later",
     "价格模式": "",
     "价格模式（默认）": "Price Mode (Default)",

@@ -433,6 +433,7 @@
     "价格：{{symbol}}{{price}} * {{ratioType}}：{{ratio}}": "价格：{{symbol}}{{price}} * {{ratioType}}：{{ratio}}",
     "价格：${{price}} * {{ratioType}}：{{ratio}}": "价格：${{price}} * {{ratioType}}：{{ratio}}",
     "价格摘要": "价格摘要",
+    "Summary": "摘要",
     "价格暂时不可用，请稍后重试": "价格暂时不可用，请稍后重试",
     "价格模式": "价格模式",
     "价格模式（默认）": "价格模式（默认）",

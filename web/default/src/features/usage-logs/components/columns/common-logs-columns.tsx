@@ -461,6 +461,33 @@ export function useCommonLogsColumns(isAdmin: boolean): ColumnDef<UsageLog>[] {
           )
         },
         meta: { label: t('User') },
+      },
+      {
+        accessorKey: 'ip',
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title={t('IP Address')} />
+        ),
+        cell: function IpCell({ row }) {
+          const { sensitiveVisible } = useUsageLogsContext()
+          const ip = row.original.ip
+
+          if (!ip) {
+            return <span className='text-muted-foreground text-xs'>-</span>
+          }
+
+          return (
+            <StatusBadge
+              label={sensitiveVisible ? ip : '****'}
+              copyText={sensitiveVisible ? ip : undefined}
+              variant='neutral'
+              size='sm'
+              showDot={false}
+              copyable={sensitiveVisible}
+              className='max-w-[130px] font-mono'
+            />
+          )
+        },
+        meta: { label: t('IP Address'), mobileHidden: true },
       }
     )
   }
@@ -752,7 +779,7 @@ export function useCommonLogsColumns(isAdmin: boolean): ColumnDef<UsageLog>[] {
 
         return (
           <div className='flex flex-col gap-0.5'>
-            <span className='border-border/80 bg-muted/60 inline-flex h-6 w-fit items-center rounded-md border px-2 text-sm leading-none [font-family:var(--font-body)] font-semibold tabular-nums'>
+            <span className='border-border/80 bg-muted/60 inline-flex h-6 w-fit items-center rounded-md border px-2 [font-family:var(--font-body)] text-sm leading-none font-semibold tabular-nums'>
               {quotaDisplay.prefix && (
                 <span className='mr-1'>{quotaDisplay.prefix}</span>
               )}
@@ -824,6 +851,42 @@ export function useCommonLogsColumns(isAdmin: boolean): ColumnDef<UsageLog>[] {
       maxSize: 200,
     }
   )
+
+  if (isAdmin) {
+    columns.push({
+      id: 'summary',
+      accessorKey: 'summary',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title={t('Summary')} />
+      ),
+      cell: ({ row }) => {
+        const summary = row.original.summary
+        if (!summary) {
+          return <span className='text-muted-foreground/40'>-</span>
+        }
+
+        return (
+          <TooltipProvider delay={300}>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <span className='text-muted-foreground block max-w-[240px] truncate text-xs' />
+                }
+              >
+                {summary}
+              </TooltipTrigger>
+              <TooltipContent side='top' className='max-w-md break-words'>
+                {summary}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )
+      },
+      enableHiding: false,
+      meta: { label: t('Summary') },
+      size: 220,
+    })
+  }
 
   return columns
 }

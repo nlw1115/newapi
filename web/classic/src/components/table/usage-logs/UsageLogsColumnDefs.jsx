@@ -144,10 +144,7 @@ function renderType(type, t) {
 
 function buildStreamStatusTooltip(ss, t) {
   if (!ss) return null;
-  const lines = [
-    t('流状态') + '：' + t('异常'),
-    (ss.end_reason || 'unknown'),
-  ];
+  const lines = [t('流状态') + '：' + t('异常'), ss.end_reason || 'unknown'];
   if (ss.error_count > 0) {
     lines.push(`${t('软错误')}: ${ss.error_count}`);
   }
@@ -185,11 +182,7 @@ function renderIsStream(bool, t, streamStatus) {
                 userSelect: 'none',
               }}
             >
-              <CircleAlert
-                size={14}
-                strokeWidth={2.5}
-                color='currentColor'
-              />
+              <CircleAlert size={14} strokeWidth={2.5} color='currentColor' />
             </span>
           </Tooltip>
         )}
@@ -461,7 +454,11 @@ function getUsageLogDetailSummary(record, text, billingDisplayMode, t) {
     };
   }
 
-  const summaryOpts = { ...other, displayMode: billingDisplayMode, outputMode: 'segments' };
+  const summaryOpts = {
+    ...other,
+    displayMode: billingDisplayMode,
+    outputMode: 'segments',
+  };
 
   if (other?.billing_mode === 'tiered_expr') {
     return { segments: renderTieredModelPriceSimple(summaryOpts) };
@@ -483,7 +480,7 @@ export const getLogsColumns = ({
   isAdminUser,
   billingDisplayMode = 'price',
 }) => {
-  return [
+  const columns = [
     {
       key: COLUMN_KEYS.TIME,
       title: t('时间'),
@@ -933,4 +930,34 @@ export const getLogsColumns = ({
       },
     },
   ];
+
+  if (isAdminUser) {
+    columns.push({
+      key: COLUMN_KEYS.SUMMARY,
+      title: t('Summary'),
+      dataIndex: 'summary',
+      fixed: 'right',
+      width: 240,
+      render: (text) => {
+        return text ? (
+          <Typography.Paragraph
+            ellipsis={{
+              rows: 2,
+              showTooltip: {
+                type: 'popover',
+                opts: { style: { width: 320 } },
+              },
+            }}
+            style={{ maxWidth: 240, marginBottom: 0 }}
+          >
+            {text}
+          </Typography.Paragraph>
+        ) : (
+          <Typography.Text type='tertiary'>-</Typography.Text>
+        );
+      },
+    });
+  }
+
+  return columns;
 };
